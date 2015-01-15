@@ -1,4 +1,3 @@
-time
-====
+# time-tracking
 
-Time tracking app.
+Dead simple time tracking app written in Javascript using HTML5 localStorage.
