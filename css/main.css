@@ -52,17 +52,22 @@ body {background:#fff; color:#333; font-family:Arial, Helvetica, sans-serif;}
 #input {width:90%;}
 #input, #save {font-size:1.5em; font-weight:bold; padding:.5em;}
 /*#entries {border-top:1px solid #999;}*/
-#entries li {border-bottom:1px solid #ccc; background:#fff; padding:.5em 2em; font-size:1.1em;}
+#entries li,
+#totalentry li {border-bottom:1px solid #ccc; background:#fff; padding:.5em 2em; font-size:1.1em;}
+#totalentry li {background:#eee; font-weight:bold;}
 #entries li:nth-child(even) {background:#fff;}
 #entries li.active {background:#dd4b39; color:#fff;}
-#entries .description {display:inline-block; width:70%;}
-#entries .time {display:inline-block; width:15%; text-align:center;}
+#entries .description,
+#totalentry .description {display:inline-block; width:70%;}
+#entries .time,
+#totalentry .time {display:inline-block; width:15%; text-align:center;}
 #entries .controls {display:inline-block; width:14%; text-align:center;}
 #entries .edit-text {font-size:.75em; padding:.25em; width:90%;}
 
 @media only screen and (max-width: 640px) {
 	#input {width:80%;}
-	#entries .description {width:83%;}
+  #entries .description,
+  #totalentry .description{width:83%;}
 	#entries .controls {width:100%; display:block; margin-top:.5em;}
 }
 

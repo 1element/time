@@ -90,7 +90,7 @@
 	var ui = {
 		$current_li: undefined,
 		init: function() {
-			$('body').append('<div id="entry"><input type="text" id="input" name="input" placeholder="Enter task..." /><input type="button" id="save" value="Save" /></div><ul id="entries"></ul>');
+			$('body').append('<div id="entry"><input type="text" id="input" name="input" placeholder="Enter task..." /><input type="button" id="save" value="Save" /></div><ul id="entries"></ul><ul id="totalentry"><li><span class="description">Total time</span> <span id="totaltime" class="time"></span></ul>');
 			$('#save').click(this.saveHandler);
 			$('#entries').on('click', '.start', this.startHandler);
 			$('#entries').on('click', '.stop', this.stopHandler);
@@ -109,13 +109,23 @@
 			for (var i=0, l=data.length; i<l; i++) {
 				$('#entries').append('<li id="' + data[i].id + '"><span class="description">' + data[i].description + '</span> <span class="time">[' + util.ms2m(data[i].totalTime) + ']</span><span class="controls"><input type="button" class="start" value="Start" /> <input type="button" class="edit" value="Edit" /> <input type="button" class="delete" value="Delete" /></span></li>');
 			}
+      this.showTotalTime();
 		},
+    showTotalTime: function() {
+      var totalTime = 0;
+      $('#entries li .time').each(function(){
+        var time = parseInt($(this).text().replace(/[^\d]/g, ''));
+        totalTime = totalTime + time;
+      });
+      $('#totaltime').html('[' + totalTime + ']');
+    },
 		updateTime: function() {
 			//console.log(this);
 			//"this" context is window cause it is called from setInterval
 			var now = new Date().getTime();
 			var totalTime = now - timer.start_time;
 			ui.$current_li.find('.time').html('[' + util.ms2m(totalTime) + ']');
+      ui.showTotalTime();
 		},
 		saveHandler: function(e) {
 			var desc = $('#input').val();
@@ -144,6 +154,7 @@
 			//we subtract totalTime so the running total is correct
 			timer.start(start_time - te.totalTime, ui.updateTime);
 			//console.log(window['localStorage']);
+      ui.showTotalTime();
 		},
 		stopHandler: function(e) {
 			//get parent li from click event
@@ -162,12 +173,14 @@
 			te.save();
 			timer.stop();
 			//console.log(window['localStorage']);
+      ui.showTotalTime();
 		},
 		deleteHandler: function(e) {
 			$li = $(e.target).parent().parent();
 			var id = $li.attr('id');
 			storage.delete(id);
 			$li.remove();
+      ui.showTotalTime();
 		},
 		editHandler: function(e) {
 			//get parent li from click event
@@ -200,6 +213,7 @@
 			//convert back to normal entry (no text fields)
 			$li.find('.description').html(te.description);
 			$li.find('.time').html('[' + util.ms2m(te.totalTime) + ']');
+      ui.showTotalTime();
 		}
 	};
 	
